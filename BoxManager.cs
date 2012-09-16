@@ -31,7 +31,7 @@ namespace Boxes
 {
 	public class BoxManager
 	{
-		public List<Box> Boxes = new List<Box>();
+		public List<Box> AllBoxes = new List<Box>();
 		public static string TableName = "Boxes";
 
 		private IDbConnection database;
@@ -77,7 +77,7 @@ namespace Boxes
 		{
 			using (var reader = database.QueryReader("SELECT * FROM Boxes WHERE WorldID=@0", map))
 			{
-				Boxes.Clear();
+				AllBoxes.Clear();
 				while (reader.Read())
 				{
 					int X1 = reader.Get<int>("X1");
@@ -115,7 +115,7 @@ namespace Boxes
 						Log.Error(e.StackTrace);
 					}
 					
-					Boxes.Add(r);
+					AllBoxes.Add(r);
 				}
 			}
 		}
@@ -131,7 +131,7 @@ namespace Boxes
 				database.Query(
 					"INSERT INTO Boxes (X1, Y1, width, height, BoxName, WorldID, UserIds, Protected, Groups, Owner, Z) VALUES (@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10);",
 					tx, ty, width, height, boxname, worldid, "", 1, "", owner, z);
-				Boxes.Add(new Box(new Rectangle(tx, ty, width, height), boxname, owner, true, worldid, z));
+				AllBoxes.Add(new Box(new Rectangle(tx, ty, width, height), boxname, owner, true, worldid, z));
 				return true;
 			}
 			catch (Exception ex)
@@ -147,7 +147,7 @@ namespace Boxes
 			{
 				database.Query("DELETE FROM Boxes WHERE BoxName=@0 AND WorldID=@1", name, Main.worldID.ToString());
 				var worldid = Main.worldID.ToString();
-				Boxes.RemoveAll(r => r.Name == name && r.WorldID == worldid);
+				AllBoxes.RemoveAll(r => r.Name == name && r.WorldID == worldid);
 				return true;
 			}
 			catch (Exception ex)
@@ -187,16 +187,16 @@ namespace Boxes
 				return false;
 			}
 		    Box top = null;
-			for (int i = 0; i < Boxes.Count; i++)
+			for (int i = 0; i < AllBoxes.Count; i++)
 			{
-				if (Boxes[i].InArea(x,y) )
+				if (AllBoxes[i].InArea(x,y) )
 				{
                     if (top == null)
-                        top = Boxes[i];
+                        top = AllBoxes[i];
                     else
                     {
-                        if (Boxes[i].Z > top.Z)
-                            top = Boxes[i];
+                        if (AllBoxes[i].Z > top.Z)
+                            top = AllBoxes[i];
                     }
 				}
 			}
@@ -205,7 +205,7 @@ namespace Boxes
 
 		public bool InArea(int x, int y)
 		{
-			foreach (Box region in Boxes)
+			foreach (Box region in AllBoxes)
 			{
 				if (x >= region.Area.Left && x <= region.Area.Right &&
 				    y >= region.Area.Top && y <= region.Area.Bottom &&
@@ -220,7 +220,7 @@ namespace Boxes
         public List<string> InAreaBoxName(int x, int y)
         {
             List<string> boxes = new List<string>() { };
-            foreach (Box box in Boxes)
+            foreach (Box box in AllBoxes)
             {
                 if (x >= box.Area.Left && x <= box.Area.Right &&
                     y >= box.Area.Top && y <= box.Area.Bottom &&
@@ -235,7 +235,7 @@ namespace Boxes
         public List<Box> InAreaBox(int x, int y)
         {
             List<Box> regions = new List<Box>() { };
-            foreach (Box region in Boxes)
+            foreach (Box region in AllBoxes)
             {
                 if (x >= region.Area.Left && x <= region.Area.Right &&
                     y >= region.Area.Top && y <= region.Area.Bottom &&
@@ -354,7 +354,7 @@ namespace Boxes
 
 				int q = database.Query("UPDATE Boxes SET UserIds=@0 WHERE BoxName=@1 AND WorldID=@2", MergedIDs,
 				                       regionName, Main.worldID.ToString());
-				foreach (var r in Boxes)
+				foreach (var r in AllBoxes)
 				{
 					if (r.Name == regionName && r.WorldID == Main.worldID.ToString())
 						r.setAllowedIDs(MergedIDs);
@@ -393,12 +393,12 @@ namespace Boxes
 
 		public Box GetBoxByName(String name)
 		{
-			return Boxes.FirstOrDefault(r => r.Name.Equals(name) && r.WorldID == Main.worldID.ToString());
+			return AllBoxes.FirstOrDefault(r => r.Name.Equals(name) && r.WorldID == Main.worldID.ToString());
 		}
 
 		public Box ZacksGetBoxByName(String name)
 		{
-			foreach (Box r in Boxes)
+			foreach (Box r in AllBoxes)
 			{
 				if (r.Name.Equals(name))
 					return r;
@@ -499,6 +499,17 @@ namespace Boxes
                 return false;
             }
         }
+		
+		public int GetUsersBoxedTiles (string playerName)
+		{
+			var reader = database.QueryReader ("SELECT * FROM Boxes WHERE Owner=@0 AND WorldID=@1", playerName,
+			                                  Main.worldID.ToString ());
+			var i = 0;
+			while (reader.Read ()) {
+				i += (reader.Get<int>("height")*reader.Get<int>("height"));
+			};
+			return i;
+		}
 	}
 
 	public class Box
