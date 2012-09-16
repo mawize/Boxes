@@ -1,13 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Util.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Commands.cs">
     <Files>
       <File FileName="Commands.cs" Line="60" Column="9" />
-      <File FileName="BoxManager.cs" Line="34" Column="3" />
+      <File FileName="BoxManager.cs" Line="506" Column="56" />
       <File FileName="ChatHandler.cs" Line="44" Column="23" />
-      <File FileName="ConfigFile.cs" Line="10" Column="29" />
+      <File FileName="ConfigFile.cs" Line="10" Column="49" />
       <File FileName="Util.cs" Line="24" Column="16" />
-      <File FileName="Properties\AssemblyInfo.cs" Line="34" Column="1" />
+      <File FileName="Properties\AssemblyInfo.cs" Line="33" Column="40" />
       <File FileName="BoxesPlugin.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
