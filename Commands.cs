@@ -31,32 +31,25 @@ namespace Boxes
             {
                 case "name":
                     {
-                        {
-                            ChatHandler.communicate(ChatHandler.CustomWarning, args.Player, "Hit a block to get the name of the box");
-                            args.Player.AwaitingName = true;
-                        }
+                        ChatHandler.communicate(ChatHandler.CustomWarning, args.Player, "Hit a block to get the name of the box");
+                        args.Player.AwaitingName = true;
                         break;
                     }
                 case "set":
                     {
                         int choice = 0;
-                        if (args.Parameters.Count == 2 &&
-                            int.TryParse(args.Parameters[1], out choice) &&
-                            choice >= 1 && choice <= 2)
+                        if (args.Parameters.Count == 2 && int.TryParse(args.Parameters[1], out choice) && choice >= 1 && choice <= 2)
                         {
 							ChatHandler.communicate(ChatHandler.CustomWarning, args.Player, "Hit a block to Set Point " + choice);
                             args.Player.AwaitingTempPoint = choice;
                         }
                         else
-                        {
 							ChatHandler.communicate(ChatHandler.InvalidSyntax, args.Player, CommandName + " set [1/2]");
-                        }
                         break;
                     }
                 case "define":
                     {
                         if (args.Parameters.Count > 1)
-                        {
                             if (!args.Player.TempPoints.Any(p => p == Point.Zero))
                             {
                                 string boxName = String.Join(" ", args.Parameters.GetRange(1, args.Parameters.Count - 1));
@@ -70,17 +63,15 @@ namespace Boxes
                                     args.Player.TempPoints[0] = Point.Zero;
                                     args.Player.TempPoints[1] = Point.Zero;
 									ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Box " + boxName + " successfully created");
+									ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Box " + boxName + " protected");
                                 }
                                 else
-                                {
 									ChatHandler.communicate(ChatHandler.CustomError, args.Player, "Box " + boxName + " already exists");
-                                }
                             }
                             else
                             {
 								ChatHandler.communicate(ChatHandler.CustomWarning, args.Player, "Points not set up yet.");
                             }
-                        }
                         else
 							ChatHandler.communicate(ChatHandler.InvalidSyntax, args.Player, CommandName + " define [name]");
                         break;
@@ -91,7 +82,7 @@ namespace Boxes
                         {
                             string boxName = args.Parameters[1];
 							bool isOwner = (args.Player.UserAccountName ==  BoxMan.GetBoxByName(boxName).Owner || args.Player.Group.HasPermission("boxes.admin") || args.Player.Group.Name == "superadmin");
-							if(isOwner){
+							if(isOwner)
 	                            if (args.Parameters[2].ToLower() == "true")
 	                            {
 	                                if (isOwner && BoxMan.SetBoxProtected(boxName, true))
@@ -108,7 +99,7 @@ namespace Boxes
 	                            }
 	                            else
 									ChatHandler.communicate(ChatHandler.InvalidSyntax, args.Player, CommandName + " protect [name] [true/false]");
-							} else
+							else
 								ChatHandler.communicate(ChatHandler.NoPermission, args.Player, boxName);
                         }
                         else
@@ -123,12 +114,12 @@ namespace Boxes
                             string boxName = String.Join(" ", args.Parameters.GetRange(1, args.Parameters.Count - 1));
 							bool isOwner = (args.Player.UserAccountName ==  BoxMan.GetBoxByName(boxName).Owner || args.Player.Group.HasPermission("boxes.admin") || args.Player.Group.Name == "superadmin");
 
-							if(isOwner){
+							if(isOwner)
 	                            if (BoxMan.DeleteBox(boxName))
 									ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Deleted box " + boxName);
 	                            else
 									ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);
-							} else 
+							else 
 								ChatHandler.communicate(ChatHandler.NoPermission, args.Player, boxName);
 						}
                         else
@@ -152,21 +143,15 @@ namespace Boxes
                                 
 							bool isOwner = (args.Player.UserAccountName ==  BoxMan.GetBoxByName(boxName).Owner || args.Player.Group.HasPermission("boxes.admin") || args.Player.Group.Name == "superadmin");
 
-							if(isOwner){
+							if(isOwner)
 	                            if (TShock.Users.GetUserByName(playerName) != null)
-	                            {
 	                                if (BoxMan.AddNewUser(boxName, playerName))
-	                                {
 										ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Added user " + playerName + " to " + boxName);
-	                                }
 	                                else
 										ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);
-	                            }
 	                            else
-	                            {
 									ChatHandler.communicate(ChatHandler.PlayerNotFound, args.Player, playerName);
-	                            }
-							} else 
+							else 
 								ChatHandler.communicate(ChatHandler.NoPermission, args.Player, boxName);
                         }
                         else
@@ -180,21 +165,15 @@ namespace Boxes
                         string boxName = args.Parameters[2];
                             
 						bool isOwner = (args.Player.UserAccountName ==  BoxMan.GetBoxByName(boxName).Owner || args.Player.Group.HasPermission("boxes.admin") || args.Player.Group.Name == "superadmin");
-						if(isOwner) {
+						if(isOwner)
 	                        if (TShock.Users.GetUserByName(playerName) != null)
-	                        {
 	                            if (BoxMan.RemoveUser(boxName, playerName))
-	                            {
 									ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Removed user " + playerName + " from " + boxName);
-	                            }
 	                            else
 									ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);
-	                        }
 	                        else
-	                        {
 								ChatHandler.communicate(ChatHandler.PlayerNotFound, args.Player, playerName);
-	                        }
-						}else
+						else
 							ChatHandler.communicate(ChatHandler.NoPermission, args.Player, boxName);
                     }
                     else
@@ -209,21 +188,15 @@ namespace Boxes
 
 							bool isOwner = (args.Player.UserAccountName ==  BoxMan.GetBoxByName(boxName).Owner || args.Player.Group.HasPermission("boxes.admin") || args.Player.Group.Name == "superadmin");
 
-							if(isOwner){
+							if(isOwner)
 	                            if (TShock.Groups.GroupExists(group))
-	                            {
 	                                if (BoxMan.AllowGroup(boxName, group))
-	                                {
 										ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Added group " + group + " to " + boxName);
-	                                }
 	                                else
 										ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);
-	                            }
 	                            else
-	                            {
 									ChatHandler.communicate(ChatHandler.GroupNotFound, args.Player, group);
-	                            }
-							}else
+							else
 								ChatHandler.communicate(ChatHandler.NoPermission, args.Player, boxName);
                         }
                         else
@@ -237,21 +210,15 @@ namespace Boxes
                         string boxName = args.Parameters[2];
 
 						bool isOwner = (args.Player.UserAccountName ==  BoxMan.GetBoxByName(boxName).Owner || args.Player.Group.HasPermission("boxes.admin") || args.Player.Group.Name == "superadmin");
-						if(isOwner){
+						if(isOwner)
 	                        if (TShock.Groups.GroupExists(group))
-	                        {
 	                            if (BoxMan.RemoveGroup(boxName, group))
-	                            {
 									ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Removed group " + group + " from " + boxName);
-	                            }
 	                            else
 									ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);
-	                        }
 	                        else
-	                        {
 								ChatHandler.communicate(ChatHandler.GroupNotFound, args.Player, group);
-	                        }
-						} else
+						else
 							ChatHandler.communicate(ChatHandler.NoPermission, args.Player, boxName);
                     }
                     else
@@ -300,21 +267,15 @@ namespace Boxes
                         //Add up to pagelimit names to a list
                         var nameslist = new List<string>();
                         for (int i = (page * pagelimit); (i < ((page * pagelimit) + pagelimit)) && i < boxes.Count; i++)
-                        {
                             nameslist.Add(boxes[i].Name);
-                        }
 
                         //convert the list to an array for joining
                         var names = nameslist.ToArray();
                         for (int i = 0; i < names.Length; i += perline)
-                        {
 							ChatHandler.communicate(ChatHandler.CustomInfo, args.Player, string.Join(", ", names, i, Math.Min(names.Length - i, perline)));
-                        }
 
                         if (page < pagecount)
-                        {
 							ChatHandler.communicate(ChatHandler.CustomWarning, args.Player, string.Format("Type " +  CommandName + " list {0} for more boxes.", (page + 2)));
-                        }
 
                         break;
                     }
@@ -340,10 +301,7 @@ namespace Boxes
                             }
                         }
                         else
-                        {
 							ChatHandler.communicate(ChatHandler.InvalidSyntax, args.Player, CommandName + " info [name]");
-                        }
-
                         break;
                     }
                 case "z":
@@ -355,12 +313,10 @@ namespace Boxes
 							if(isOwner){
 	                            int z = 0;
 	                            if (int.TryParse(args.Parameters[2], out z))
-	                            {
 	                                if (BoxMan.SetZ(boxName, z))
 										ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Box's z is now " + z);
 	                                else
 										ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);
-	                            }
 	                            else
 									ChatHandler.communicate(ChatHandler.InvalidSyntax, args.Player, CommandName + " z [name] [#]");
 							} else 
@@ -419,16 +375,12 @@ namespace Boxes
 	                                BoxMan.ReloadAllBoxes();
 	                            }
 	                            else
-	                            {
 									ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Syntax? Does box exist?");
-	                            }
 							} else 
 								ChatHandler.communicate(ChatHandler.NoPermission, args.Player, boxName);
                         }
                         else
-                        {
 							ChatHandler.communicate(ChatHandler.InvalidSyntax, args.Player, CommandName + " resize [boxname] [u/d/l/r] [amount]1");
-                        }
                         break;
                     }
                 case "help":
