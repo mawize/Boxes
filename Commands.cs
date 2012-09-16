@@ -386,11 +386,11 @@ namespace Boxes
                 case "help":
                 default:
                     {
-                        args.Player.SendMessage("Avialable boxes commands:");
-                        args.Player.SendMessage("" +  CommandName + " set [1/2] " +  CommandName + " define [name] " +  CommandName + " protect [name] [true/false]");
-                        args.Player.SendMessage("" +  CommandName + " name (provides box name)");
-                        args.Player.SendMessage("" +  CommandName + " delete [name] " +  CommandName + " clear (temporary box)");
-                        args.Player.SendMessage("" +  CommandName + " allow [name] [boxname]");
+                        args.Player.SendMessage("Avialable Boxes commands:");
+						args.Player.SendMessage("" +  CommandName + " set [1/2] " +  CommandName + " define [boxName] " +  CommandName + " protect [boxName] [true/false]");
+						args.Player.SendMessage("" +  CommandName + " name (provides boxName)");
+						args.Player.SendMessage("" +  CommandName + " delete [boxName] " +  CommandName + " clear (temporary box)");
+                        args.Player.SendMessage("" +  CommandName + " allow [playerName] [boxName]");
                         args.Player.SendMessage("" +  CommandName + " resize [boxname] [u/d/l/r] [amount]");
                         break;
                     }

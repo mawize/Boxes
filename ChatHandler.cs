@@ -24,7 +24,7 @@ namespace Boxes
 			switch(what)
 			{
 			case InvalidSyntax:
-				to.SendMessage("Invalid Syntax. Proper Syntax: " + parameter, Color.Red);
+				to.SendMessage("Invalid syntax. Proper syntax: " + parameter, Color.Red);
 				break;
 			case NoPermission:
 				to.SendMessage("No permissions for box: " + parameter, Color.Red);
