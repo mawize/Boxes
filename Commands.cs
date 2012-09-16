@@ -57,7 +57,7 @@ namespace Boxes
                                 var y = Math.Min(args.Player.TempPoints[0].Y, args.Player.TempPoints[1].Y);
                                 var width = Math.Abs(args.Player.TempPoints[0].X - args.Player.TempPoints[1].X);
                                 var height = Math.Abs(args.Player.TempPoints[0].Y - args.Player.TempPoints[1].Y);
-								if(((width * height)+BoxMan.GetUsersBoxedTiles(args.Player.Name)) <= BoxesPlugin.Config.MaxTilesPerUser)
+								if(BoxesPlugin.Config.MaxTilesPerUser==0 || ((width * height)+BoxMan.GetUsersBoxedTiles(args.Player.Name)) <= BoxesPlugin.Config.MaxTilesPerUser)
 	                                if (BoxMan.AddBox(x, y, width, height, boxName, args.Player.UserAccountName, Main.worldID.ToString()))
 	                                {
 	                                    args.Player.TempPoints[0] = Point.Zero;

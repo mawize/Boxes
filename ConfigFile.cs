@@ -7,7 +7,7 @@ namespace Boxes
 	public class ConfigFile
 	{
 
-		public int MaxTilesPerUser = 36;
+		public int MaxTilesPerUser = 0; // 0 unlimited
 		
 		public static ConfigFile Read(string path)
 		{
