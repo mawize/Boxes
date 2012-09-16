@@ -67,8 +67,11 @@ namespace Boxes
 	                                }
 	                                else
 										ChatHandler.communicate(ChatHandler.CustomError, args.Player, "Box " + boxName + " already exists");
-								else
+								else{
 									ChatHandler.communicate(ChatHandler.CustomError, args.Player, "Box " + boxName + " would exceed MaxTilesPerUser limit");
+									ChatHandler.communicate(ChatHandler.CustomInfo, args.Player, BoxMan.GetUsersBoxedTiles(args.Player.Name) + "Tiles boxed by you");
+									ChatHandler.communicate(ChatHandler.CustomInfo, args.Player, "MaxTilesPerUser limit is set to " + BoxesPlugin.Config.MaxTilesPerUser);
+								}
 
                             }
                             else
