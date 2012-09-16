@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Commands.cs">
+    <Files>
+      <File FileName="Commands.cs" Line="105" Column="60" />
+      <File FileName="BoxManager.cs" Line="255" Column="3" />
+      <File FileName="Boxes.cs" Line="75" Column="89" />
+      <File FileName="ChatHandler.cs" Line="38" Column="22" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
