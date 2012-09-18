@@ -2,11 +2,11 @@ using System;
 using System.IO;
 using TShockAPI;
 
-namespace Boxes
+namespace BoxesQuota
 {
 	public class Util
 	{
-		internal static string BoxesConfigPath { get { return Path.Combine(TShock.SavePath, "boxesconfig.json"); } }
+		internal static string BoxesConfigPath { get { return Path.Combine(TShock.SavePath, "PluginConfigs\\BoxesQuotaConfig.json"); } }
 
 		private Util ()
 		{        
@@ -18,10 +18,10 @@ namespace Boxes
 			{
 				if (File.Exists(BoxesConfigPath))
 				{
-					BoxesPlugin.Config = ConfigFile.Read(BoxesConfigPath);
+					BoxesQuotaPlugin.Config = ConfigFile.Read(BoxesConfigPath);
 					// Add all the missing config properties in the json file
 				}
-				BoxesPlugin.Config.Write(BoxesConfigPath);
+				BoxesQuotaPlugin.Config.Write(BoxesConfigPath);
 			}
 			catch (Exception ex)
 			{

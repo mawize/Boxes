@@ -13,6 +13,7 @@ namespace Boxes
 		public const int CustomError = 5;
 		public const int CustomSuccess = 6;
 		public const int CustomInfo = 7;
+		public const int TypeForMore = 9;
 		public const int CustomWarning = 8;
 
 		public ChatHandler ()
@@ -24,7 +25,7 @@ namespace Boxes
 			switch(what)
 			{
 			case InvalidSyntax:
-				to.SendMessage("Invalid syntax. Proper syntax: " + parameter, Color.Red);
+				to.SendMessage("Invalid syntax. Proper syntax: " + Commands.SlashCommand + " " + parameter, Color.Red);
 				break;
 			case NoPermission:
 				to.SendMessage("No permissions for box: " + parameter, Color.Red);
@@ -38,14 +39,17 @@ namespace Boxes
 			case GroupNotFound:
 				to.SendMessage("Group not found: " + parameter, Color.Red);
 				break;
+			case TypeForMore:
+				to.SendMessage("Type " + Commands.SlashCommand + " list " + parameter + " for more boxes.");
+				break;
 			case CustomError:
 				to.SendMessage(parameter, Color.Red);
 				break;
 			case CustomSuccess:
-				to.SendMessage(parameter, Color.Green);
+				to.SendMessage(parameter, Color.LightGreen);
 				break;
 			case CustomInfo:
-				to.SendMessage(parameter);
+				to.SendMessage(parameter, Color.Azure);
 				break;
 			case CustomWarning:
 				to.SendMessage(parameter, Color.Yellow);

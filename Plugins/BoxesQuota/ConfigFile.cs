@@ -2,12 +2,12 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Boxes
+namespace BoxQuota
 {
 	public class ConfigFile
 	{
 
-		public int MaxTilesPerUser = 0; // 0 unlimited
+		public int MaxTilesPerUser = 0;
 		
 		public static ConfigFile Read(string path)
 		{

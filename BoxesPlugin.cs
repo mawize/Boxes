@@ -11,14 +11,14 @@ namespace Boxes
 	[APIVersion( 1, 12 )]
 	public class BoxesPlugin : TerrariaPlugin
 	{
-		public static ConfigFile Config;
-		private BoxManager BoxManager;
+		public const string version = "1.1.0.0";
+
+		private BoxManager BoxMan;
 		private IDbConnection DB;
 		private Commands comms;
 		
 		public BoxesPlugin( Main game) : base( game )
 		{
-			Config = new ConfigFile();
 		}
 		
 		public override string Author
@@ -28,9 +28,9 @@ namespace Boxes
 		
 		public override string Description
 		{
-			get { return "Region Control"; }
+			get { return "Region/Area Control"; }
 		}
-		
+
 		public override string Name
 		{
 			get { return "Boxes"; }
@@ -38,27 +38,30 @@ namespace Boxes
 		
 		public override Version Version
 		{
-			get { return TShock.VersionNum; }
+			get { return new System.Version(version); }
 		}
 		
 		public override void Initialize()
 		{
-			// read/write config
-			Util.SetupConfig();
-
 			// init DB
 			DB = TShock.DB;
-			BoxManager = new BoxManager(DB);
-			comms = new Commands( BoxManager );
+			BoxMan = BoxManager.GetInstance();
+			BoxMan.EnsureTableExists(DB);
+			comms = new Commands( BoxMan );
 
 			// hook setup
 			Hooks.GameHooks.PostInitialize += OnPostInit;
 			GetDataHandlers.TileEdit += OnTileEdit;
 
+			// register our own hooks to ensure handling when no Plugin is loaded
+			Hooks.BoxesHooks.onDefine += Hooks.BoxesHooks.defaultDefine;
+			Hooks.BoxesHooks.onResize += Hooks.BoxesHooks.defaultResize;
+
 			// permission Setup
 			bool managebox = false;
 			bool adminbox = false;
 			
+			// look if there are already set up permissions
 			foreach (Group group in TShock.Groups.groups)
 			{
 				if (group.Name != "superadmin")
@@ -70,6 +73,8 @@ namespace Boxes
 				}
 			}
 			List<string> perm = new List<string>();
+
+			// if not we set this for default user
 			if (!managebox)
 				perm.Add("boxes.manage");
 			TShock.Groups.AddPermissions("default", perm);
@@ -79,20 +84,19 @@ namespace Boxes
 			TShock.Groups.AddPermissions("trustedadmin", perm);
 
 			// register chatcommand
-			TShockAPI.Commands.ChatCommands.Add(new Command("boxes.manage", comms.Boxes, Commands.Command));
-
+			TShockAPI.Commands.ChatCommands.Add(new Command("boxes.manage", comms.Boxes, Commands.CommandName));
 		}
 		
 		private void OnPostInit()
 		{
-			BoxManager.ReloadAllBoxes();
+			BoxMan.ReloadAllBoxes();
 		}
 		
 		private void OnTileEdit(object sender, GetDataHandlers.TileEditEventArgs args)
 		{
 			if (args.Player.AwaitingName)
 			{
-				var protectedboxes = BoxManager.InAreaBoxName(args.X, args.Y);
+				var protectedboxes = BoxMan.InAreaBoxName(args.X, args.Y);
 				if (protectedboxes.Count == 0)
 				{
 					args.Player.SendMessage("Box is not protected", Color.Yellow);
@@ -112,8 +116,8 @@ namespace Boxes
 				return;
 			}
 			
-			Box box = BoxManager.GetTopBox(BoxManager.InAreaBox(args.X, args.Y));
-			if (!BoxManager.CanBuild(args.X, args.Y, args.Player))
+			Box box = BoxMan.GetTopBox(BoxMan.InAreaBox(args.X, args.Y));
+			if (!BoxMan.CanBuild(args.X, args.Y, args.Player))
 			{
 				if (((DateTime.Now.Ticks/TimeSpan.TicksPerMillisecond) - args.Player.RPm) > 2000)
 				{
@@ -130,14 +134,19 @@ namespace Boxes
 			if( disposing )
 			{
 				Hooks.GameHooks.PostInitialize -= OnPostInit;
+				
+				// unregister our own hooks just cause i can
+				Hooks.BoxesHooks.onDefine -= Hooks.BoxesHooks.defaultDefine;
+				Hooks.BoxesHooks.onResize -= Hooks.BoxesHooks.defaultResize;
 			}
 			
 			base.Dispose(disposing);
 		}
 		
-		public BoxManager GetBoxManager()
+/*		public BoxManager GetBoxManager()
 		{
 			return BoxManager;
 		}
+*/
 	}
 }

@@ -36,7 +36,19 @@ namespace Boxes
 
 		private IDbConnection database;
 
-		public BoxManager(IDbConnection db)
+		private static BoxManager instance;
+		public static BoxManager GetInstance ()
+		{
+			if(instance==null)
+				instance = new BoxManager();
+			return instance;
+		}
+
+		private BoxManager()
+		{
+		}
+
+		public void EnsureTableExists (IDbConnection db)
 		{
 			database = db;
 			var table = new SqlTable(TableName,
@@ -45,19 +57,18 @@ namespace Boxes
 			                         new SqlColumn("width", MySqlDbType.Int32),
 			                         new SqlColumn("height", MySqlDbType.Int32),
 			                         new SqlColumn("BoxName", MySqlDbType.VarChar, 50) {Primary = true},
-			                         new SqlColumn("WorldID", MySqlDbType.Text),
-			                         new SqlColumn("UserIds", MySqlDbType.Text),
-			                         new SqlColumn("Protected", MySqlDbType.Int32),
-			                         new SqlColumn("Groups", MySqlDbType.Text),
-			                         new SqlColumn("Owner", MySqlDbType.VarChar, 50),
-                                     new SqlColumn("Z", MySqlDbType.Int32){ DefaultValue = "0" }
-				);
+			new SqlColumn("WorldID", MySqlDbType.Text),
+			new SqlColumn("UserIds", MySqlDbType.Text),
+			new SqlColumn("Protected", MySqlDbType.Int32),
+			new SqlColumn("Groups", MySqlDbType.Text),
+			new SqlColumn("Owner", MySqlDbType.VarChar, 50),
+			new SqlColumn("Z", MySqlDbType.Int32){ DefaultValue = "0" }
+			);
 			var creator = new SqlTableCreator(db,
 			                                  db.GetSqlType() == SqlType.Sqlite
-			                                  	? (IQueryBuilder) new SqliteQueryCreator()
-			                                  	: new MysqlQueryCreator());
+			                                  ? (IQueryBuilder) new SqliteQueryCreator()
+			                                  : new MysqlQueryCreator());
 			creator.EnsureExists(table);
-
 			ReloadAllBoxes();
 		}
 

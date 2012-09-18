@@ -52,18 +52,28 @@
     <Reference Include="TShockAPI">
       <HintPath>DLLS\TShockAPI.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>DLLS\Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BoxManager.cs" />
     <Compile Include="ChatHandler.cs" />
-    <Compile Include="ConfigFile.cs" />
-    <Compile Include="Util.cs" />
     <Compile Include="BoxesPlugin.cs" />
+    <Compile Include="BoxCommands\Delete.cs" />
+    <Compile Include="BoxCommands\Define.cs" />
+    <Compile Include="BoxCommands\Protect.cs" />
+    <Compile Include="BoxCommands\Info.cs" />
+    <Compile Include="BoxCommands\Name.cs" />
+    <Compile Include="BoxCommands\Clear.cs" />
+    <Compile Include="BoxCommands\Set.cs" />
+    <Compile Include="BoxCommands\Allow.cs" />
+    <Compile Include="BoxCommands\Remove.cs" />
+    <Compile Include="BoxCommands\AllowG.cs" />
+    <Compile Include="BoxCommands\RemoveG.cs" />
+    <Compile Include="BoxCommands\List.cs" />
+    <Compile Include="BoxCommands\Resize.cs" />
+    <Compile Include="BoxCommand.cs" />
+    <Compile Include="Plugins\BoxesHooks.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -73,4 +83,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="BoxCommands\" />
+    <Folder Include="Plugins\" />
+  </ItemGroup>
 </Project>
