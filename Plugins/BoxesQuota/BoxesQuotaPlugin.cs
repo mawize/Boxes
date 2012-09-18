@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Boxes;
 using TShockAPI;
 using Terraria;
@@ -8,14 +9,15 @@ namespace BoxesQuota
 	[APIVersion( 1, 12 )]
 	public class BoxesQuotaPlugin : TerrariaPlugin
 	{
-		public const string version = "0.0.0.0";
+		internal const string version = "0.0.0.0";
+		internal static string PluginConfigsPath { get { return Path.Combine(TShock.SavePath, "PluginConfigs"); } }
+		internal static string ConfigPath { get { return Path.Combine(PluginConfigsPath, "BoxesQuotaConfig.json"); } }
 
-		public static ConfigFile Config;
+		public static BQConfigFile getConfig { get; set; }
 		private BoxManager BoxMan;
 
 		public BoxesQuotaPlugin( Main game) : base( game )
 		{
-			Config = new ConfigFile();
 		}
 		
 		public override string Author
@@ -40,8 +42,14 @@ namespace BoxesQuota
 
 		public override void Initialize ()
 		{			
-			// read/write config
-			Util.SetupConfig();
+			/* Load Config */
+			if (!Directory.Exists(PluginConfigsPath)) //@"tshock/PluginConfigs/"
+				Directory.CreateDirectory(PluginConfigsPath);
+			
+			if (!File.Exists(ConfigPath))
+				BQConfigFile.CreateExample();
+			
+			BQConfigFile.LoadConfig();
 
 			// hook setup
 			Hooks.GameHooks.PostInitialize += OnPostInit;
@@ -58,13 +66,13 @@ namespace BoxesQuota
 
 		bool HandleOnResize (CommandArgs args)
 		{
-			args.Player.SendMessage("Yes. (NOT IMPLEMENTED)");
+			args.Player.SendMessage(string.Format ("QUOTA: {0} Yes. (NOT IMPLEMENTED)", getConfig.UserTilesQuota));
 			return true;
 		}
 
 		bool HandleOnDefine (CommandArgs args)
 		{
-			args.Player.SendMessage("Yes. (NOT IMPLEMENTED)");
+			args.Player.SendMessage(string.Format ("QUOTA: {0} Yes. (NOT IMPLEMENTED)", getConfig.UserTilesQuota));
 			return true;
 		}
 
