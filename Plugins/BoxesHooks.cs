@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TShockAPI;
 using Boxes;
 
@@ -6,8 +7,25 @@ namespace Hooks
 {
 	public class BoxesHooks
 	{
-		public static event Func<CommandArgs, bool> onDefine;
-		public static event Func<CommandArgs, bool> onResize;
+		private static IList<Func<CommandArgs, bool>> onDefineHooks = new List<Func<CommandArgs, bool>>();
+		public static event Func<CommandArgs, bool> onDefine {
+			add {
+				onDefineHooks.Add(value);
+			}
+			remove {
+				onDefineHooks.Remove(value);
+			}
+		}
+		
+		private static IList<Func<CommandArgs, bool>> onResizeHooks = new List<Func<CommandArgs, bool>>();
+		public static event Func<CommandArgs, bool> onResize {
+			add {
+				onResizeHooks.Add(value);
+			}
+			remove {
+				onResizeHooks.Remove(value);
+			}
+		}
 
 		private BoxesHooks ()
 		{
@@ -15,27 +33,20 @@ namespace Hooks
 
 		public static bool AskOnDefineHooks (CommandArgs args)
 		{
-			return InvokeHook(args, onDefine);
+			bool ret = true;
+			onDefineHooks.ForEach(delegate(Func<CommandArgs, bool> a){ 
+				ret &= a(args); 
+			});
+			return ret;
 		}
 
 		public static bool AskOnResizeHooks (CommandArgs args)
 		{
-			return InvokeHook(args, onResize);
-		}
-
-		public static TResult InvokeHook<TResult>(CommandArgs args, Func<CommandArgs, TResult> action)
-		{
-				return action(args);
-		}
-		
-		public static bool defaultDefine(CommandArgs args)
-		{
-			return true;
-		}
-		
-		public static bool defaultResize(CommandArgs args)
-		{
-			return true;
+			bool ret = true;
+			onResizeHooks.ForEach(delegate(Func<CommandArgs, bool> a){ 
+				ret &= a(args);
+			});
+			return ret;
 		}
 	}
 }

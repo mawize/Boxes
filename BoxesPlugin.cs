@@ -53,10 +53,6 @@ namespace Boxes
 			Hooks.GameHooks.PostInitialize += OnPostInit;
 			GetDataHandlers.TileEdit += OnTileEdit;
 
-			// register our own hooks to ensure handling when no Plugin is loaded
-			Hooks.BoxesHooks.onDefine += Hooks.BoxesHooks.defaultDefine;
-			Hooks.BoxesHooks.onResize += Hooks.BoxesHooks.defaultResize;
-
 			// permission Setup
 			bool managebox = false;
 			bool adminbox = false;
@@ -116,7 +112,6 @@ namespace Boxes
 				return;
 			}
 			
-			Box box = BoxMan.GetTopBox(BoxMan.InAreaBox(args.X, args.Y));
 			if (!BoxMan.CanBuild(args.X, args.Y, args.Player))
 			{
 				if (((DateTime.Now.Ticks/TimeSpan.TicksPerMillisecond) - args.Player.RPm) > 2000)
@@ -134,19 +129,9 @@ namespace Boxes
 			if( disposing )
 			{
 				Hooks.GameHooks.PostInitialize -= OnPostInit;
-				
-				// unregister our own hooks just cause i can
-				Hooks.BoxesHooks.onDefine -= Hooks.BoxesHooks.defaultDefine;
-				Hooks.BoxesHooks.onResize -= Hooks.BoxesHooks.defaultResize;
 			}
 			
 			base.Dispose(disposing);
 		}
-		
-/*		public BoxManager GetBoxManager()
-		{
-			return BoxManager;
-		}
-*/
 	}
 }
