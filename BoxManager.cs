@@ -275,15 +275,15 @@ namespace Boxes
 			int width = 0;
 			try
 			{
-				using (
-					var reader = database.QueryReader("SELECT X1, Y1, height, width FROM Boxes WHERE BoxName=@0 AND WorldID=@1",
-					                                  boxName, Main.worldID.ToString()))
+				using (var reader = database.QueryReader("SELECT X1, Y1, height, width FROM Boxes WHERE BoxName=@0 AND WorldID=@1", boxName, Main.worldID.ToString()))
 				{
 					if (reader.Read())
+					{
 						X = reader.Get<int>("X1");
-					width = reader.Get<int>("width");
-					Y = reader.Get<int>("Y1");
-					height = reader.Get<int>("height");
+						width = reader.Get<int>("width");
+						Y = reader.Get<int>("Y1");
+						height = reader.Get<int>("height");
+					}
 				}
 				if (!(direction == 0))
 				{
@@ -594,7 +594,7 @@ namespace Boxes
 			}
 
 			return AllowedIDs.Contains(ply.UserID) || AllowedGroups.Contains(ply.Group.Name) || Owner == ply.UserAccountName ||
-			       ply.Group.HasPermission("manageregion");
+			       ply.Group.HasPermission("boxes.admin");
 		}
 
 		public void setAllowedIDs(String ids)

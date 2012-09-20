@@ -5,11 +5,10 @@ namespace Boxes.BoxCommands
 {
 	public class Remove : BoxCommand
 	{
-		private BoxManager BoxMan;
+		private BoxManager boxman = BoxManager.GetInstance();
 
-		public Remove (BoxManager BM)
+		public Remove ()
 		{
-			BoxMan = BM;
 		}
 		
 		public override void Execute(CommandArgs args)
@@ -19,9 +18,9 @@ namespace Boxes.BoxCommands
 				string playerName = args.Parameters[1];
 				string boxName = args.Parameters[2];
 				
-				if(isOwner(args.Player, BoxMan.GetBoxByName(boxName)))
+				if(IsOwner(args.Player, boxman.GetBoxByName(boxName)))
 					if (TShock.Users.GetUserByName(playerName) != null)
-						if (BoxMan.RemoveUser(boxName, playerName))
+						if (boxman.RemoveUser(boxName, playerName))
 							ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Removed user " + playerName + " from " + boxName);
 				else
 					ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);

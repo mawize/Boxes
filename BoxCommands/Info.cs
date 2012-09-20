@@ -5,11 +5,10 @@ namespace Boxes.BoxCommands
 {
 	public class Info : BoxCommand
 	{
-		private BoxManager BoxMan;
+		private BoxManager boxman = BoxManager.GetInstance();
 
-		public Info (BoxManager BM)
+		public Info ()
 		{
-			BoxMan = BM;
 		}
 
 		public override void Execute(CommandArgs args)
@@ -17,7 +16,7 @@ namespace Boxes.BoxCommands
 			if (args.Parameters.Count > 1)
 			{
 				string boxName = String.Join(" ", args.Parameters.GetRange(1, args.Parameters.Count - 1));
-				Box r = BoxMan.GetBoxByName(boxName);
+				Box r = boxman.GetBoxByName(boxName);
 				if (r == null)
 				{
 					ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);

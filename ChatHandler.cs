@@ -25,7 +25,7 @@ namespace Boxes
 			switch(what)
 			{
 			case InvalidSyntax:
-				to.SendMessage("Invalid syntax. Proper syntax: " + Commands.SlashCommand + " " + parameter, Color.Red);
+				to.SendMessage("Invalid syntax. Proper syntax: " + Commands.SLASH_COMMAND + " " + parameter, Color.Red);
 				break;
 			case NoPermission:
 				to.SendMessage("No permissions for box: " + parameter, Color.Red);
@@ -40,7 +40,7 @@ namespace Boxes
 				to.SendMessage("Group not found: " + parameter, Color.Red);
 				break;
 			case TypeForMore:
-				to.SendMessage("Type " + Commands.SlashCommand + " list " + parameter + " for more boxes.");
+				to.SendMessage("Type " + Commands.SLASH_COMMAND + " list " + parameter + " for more boxes.");
 				break;
 			case CustomError:
 				to.SendMessage(parameter, Color.Red);

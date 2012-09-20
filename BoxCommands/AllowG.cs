@@ -5,11 +5,10 @@ namespace Boxes.BoxCommands
 {
 	public class AllowG : BoxCommand
 	{
-		private BoxManager BoxMan;
+		private BoxManager boxman = BoxManager.GetInstance();
 
-		public AllowG (BoxManager BM)
+		public AllowG ()
 		{
-			BoxMan = BM;
 		}
 
 		public override void Execute(CommandArgs args){
@@ -18,9 +17,9 @@ namespace Boxes.BoxCommands
 				string group = args.Parameters[1];
 				string boxName = args.Parameters[2];
 				
-				if(isOwner(args.Player, BoxMan.GetBoxByName(boxName)))
+				if(IsOwner(args.Player, boxman.GetBoxByName(boxName)))
 					if (TShock.Groups.GroupExists(group))
-						if (BoxMan.AllowGroup(boxName, group))
+						if (boxman.AllowGroup(boxName, group))
 							ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Added group " + group + " to " + boxName);
 				else
 					ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);

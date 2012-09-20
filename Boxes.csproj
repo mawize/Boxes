@@ -74,6 +74,8 @@
     <Compile Include="BoxCommands\Resize.cs" />
     <Compile Include="BoxCommand.cs" />
     <Compile Include="Plugins\BoxesHooks.cs" />
+    <Compile Include="BoxCommands\Help.cs" />
+    <Compile Include="BoxCommands\Z.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

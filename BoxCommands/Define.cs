@@ -7,11 +7,10 @@ namespace Boxes.BoxCommands
 {
 	public class Define : BoxCommand
 	{
-		private BoxManager BoxMan;
+		private BoxManager boxman = BoxManager.GetInstance();
 
-		public Define ( BoxManager BM)
+		public Define ()
 		{
-			BoxMan = BM;
 		}
 
 		public override void Execute(CommandArgs args){
@@ -25,7 +24,7 @@ namespace Boxes.BoxCommands
 				var height = Math.Abs(args.Player.TempPoints[0].Y - args.Player.TempPoints[1].Y);
 
 				if(args.Player.Group.HasPermission("boxes.admin") || Hooks.BoxesHooks.AskOnDefineHooks(args))
-					if (BoxMan.AddBox(x, y, width, height, boxName, args.Player.UserAccountName, Main.worldID.ToString()))
+					if (boxman.AddBox(x, y, width, height, boxName, args.Player.UserAccountName, Main.worldID.ToString()))
 					{
 						args.Player.TempPoints[0] = Point.Zero;
 						args.Player.TempPoints[1] = Point.Zero;
@@ -35,7 +34,7 @@ namespace Boxes.BoxCommands
 					else
 						ChatHandler.communicate(ChatHandler.CustomError, args.Player, "Box " + boxName + " already exists");
 				else
-					ChatHandler.communicate(ChatHandler.CustomError, args.Player, "Box " + boxName + " NOT created");
+					ChatHandler.communicate(ChatHandler.CustomError, args.Player, "Box " + boxName + " could not be created");
 			}
 			else
 			{

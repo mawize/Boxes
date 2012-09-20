@@ -5,11 +5,10 @@ namespace Boxes.BoxCommands
 {
 	public class RemoveG : BoxCommand
 	{
-		private BoxManager BoxMan;
+		private BoxManager boxman = BoxManager.GetInstance();
 
-		public RemoveG (BoxManager BM)
+		public RemoveG ()
 		{
-			BoxMan = BM;
 		}
 		
 		public override void Execute(CommandArgs args){
@@ -18,9 +17,9 @@ namespace Boxes.BoxCommands
 				string group = args.Parameters[1];
 				string boxName = args.Parameters[2];
 				
-				if(isOwner(args.Player, BoxMan.GetBoxByName(boxName)))
+				if(IsOwner(args.Player, boxman.GetBoxByName(boxName)))
 					if (TShock.Groups.GroupExists(group))
-						if (BoxMan.RemoveGroup(boxName, group))
+						if (boxman.RemoveGroup(boxName, group))
 							ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Removed group " + group + " from " + boxName);
 				else
 					ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);

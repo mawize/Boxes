@@ -7,7 +7,7 @@ namespace BoxesQuota
 {
 	public class BQConfigFile
 	{
-		public string UserTilesQuota = "10000";
+		public string UserTilesQuota = "1000";
 		
 		public static BQConfigFile Read(string path)
 		{

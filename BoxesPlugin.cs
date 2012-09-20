@@ -13,10 +13,10 @@ namespace Boxes
 	{
 		public const string version = "1.1.0.0";
 
-		private BoxManager BoxMan;
 		private IDbConnection DB;
-		private Commands comms;
-		
+		BoxManager boxman;
+		private Commands cmds;
+
 		public BoxesPlugin( Main game) : base( game )
 		{
 		}
@@ -45,9 +45,8 @@ namespace Boxes
 		{
 			// init DB
 			DB = TShock.DB;
-			BoxMan = BoxManager.GetInstance();
-			BoxMan.EnsureTableExists(DB);
-			comms = new Commands( BoxMan );
+			boxman = BoxManager.GetInstance();
+			boxman.EnsureTableExists(DB);
 
 			// hook setup
 			Hooks.GameHooks.PostInitialize += OnPostInit;
@@ -80,19 +79,20 @@ namespace Boxes
 			TShock.Groups.AddPermissions("trustedadmin", perm);
 
 			// register chatcommand
-			TShockAPI.Commands.ChatCommands.Add(new Command("boxes.manage", comms.Boxes, Commands.CommandName));
+			cmds = new Commands();
+			TShockAPI.Commands.ChatCommands.Add(new Command("boxes.manage", cmds.Boxes, Commands.COMMAND_NAME));
 		}
 		
 		private void OnPostInit()
 		{
-			BoxMan.ReloadAllBoxes();
+			boxman.ReloadAllBoxes();
 		}
 		
 		private void OnTileEdit(object sender, GetDataHandlers.TileEditEventArgs args)
 		{
 			if (args.Player.AwaitingName)
 			{
-				var protectedboxes = BoxMan.InAreaBoxName(args.X, args.Y);
+				var protectedboxes = boxman.InAreaBoxName(args.X, args.Y);
 				if (protectedboxes.Count == 0)
 				{
 					args.Player.SendMessage("Box is not protected", Color.Yellow);
@@ -112,7 +112,7 @@ namespace Boxes
 				return;
 			}
 			
-			if (!BoxMan.CanBuild(args.X, args.Y, args.Player))
+			if (!boxman.CanBuild(args.X, args.Y, args.Player))
 			{
 				if (((DateTime.Now.Ticks/TimeSpan.TicksPerMillisecond) - args.Player.RPm) > 2000)
 				{

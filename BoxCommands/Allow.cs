@@ -5,11 +5,10 @@ namespace Boxes.BoxCommands
 {
 	public class Allow : BoxCommand
 	{
-		private BoxManager BoxMan;
+		private BoxManager boxman = BoxManager.GetInstance();
 
-		public Allow (BoxManager BM)
+		public Allow ()
 		{
-			BoxMan = BM;
 		}
 
 		public override void Execute(CommandArgs args)
@@ -19,9 +18,9 @@ namespace Boxes.BoxCommands
 				string playerName = args.Parameters[1];
 				string boxName = args.Parameters[2];
 				
-				if(isOwner(args.Player,  BoxMan.GetBoxByName(boxName)))
+				if(IsOwner(args.Player,  boxman.GetBoxByName(boxName)))
 					if (TShock.Users.GetUserByName(playerName) != null)
-						if (BoxMan.AddNewUser(boxName, playerName))
+						if (boxman.AddNewUser(boxName, playerName))
 							ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Added user " + playerName + " to " + boxName);
 				else
 					ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);

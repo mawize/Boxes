@@ -1,21 +1,42 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Plugins/BoxesHooks.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Plugins\BoxesQuota\BoxesQuotaPlugin.cs">
     <Files>
-      <File FileName="Commands.cs" Line="4" Column="19" />
-      <File FileName="BoxManager.cs" Line="49" Column="4" />
-      <File FileName="ChatHandler.cs" Line="49" Column="47" />
-      <File FileName="BoxesPlugin.cs" Line="124" Column="25" />
-      <File FileName="Plugins/BoxesQuota/BoxesQuotaPlugin.cs" Line="75" Column="107" />
-      <File FileName="Plugins/BoxesQuota/BQConfigFile.cs" Line="1" Column="1" />
-      <File FileName="Plugins/BoxesHooks.cs" Line="2" Column="34" />
+      <File FileName="Plugins\BoxesQuota\BQConfigFile.cs" Line="10" Column="36" />
+      <File FileName="Plugins\BoxesQuota\BoxesQuotaPlugin.cs" Line="19" Column="25" />
+      <File FileName="BoxCommands\Resize.cs" Line="10" Column="18" />
+      <File FileName="Commands.cs" Line="21" Column="10" />
+      <File FileName="BoxCommands\Help.cs" Line="18" Column="99" />
+      <File FileName="Plugins\BoxesHooks.cs" Line="38" Column="3" />
+      <File FileName="ChatHandler.cs" Line="28" Column="78" />
+      <File FileName="BoxCommands\Allow.cs" Line="8" Column="28" />
+      <File FileName="BoxCommands\AllowG.cs" Line="8" Column="28" />
+      <File FileName="BoxCommands\Clear.cs" Line="1" Column="1" />
+      <File FileName="BoxCommands\Define.cs" Line="12" Column="18" />
+      <File FileName="BoxCommands\Delete.cs" Line="10" Column="18" />
+      <File FileName="BoxCommands\Info.cs" Line="10" Column="16" />
+      <File FileName="BoxCommands\List.cs" Line="12" Column="16" />
+      <File FileName="BoxCommands\Name.cs" Line="1" Column="1" />
+      <File FileName="BoxCommands\Protect.cs" Line="10" Column="19" />
+      <File FileName="BoxCommands\Remove.cs" Line="10" Column="18" />
+      <File FileName="BoxCommands\RemoveG.cs" Line="10" Column="19" />
+      <File FileName="BoxCommands\Set.cs" Line="1" Column="1" />
+      <File FileName="BoxCommands\Z.cs" Line="9" Column="13" />
+      <File FileName="d:\git\Boxes\BoxesPlugin.cs" Line="80" Column="1" />
+      <File FileName="BoxCommand.cs" Line="1" Column="1" />
+      <File FileName="Plugins\BoxesQuota\Commands.cs" Line="28" Column="16" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True" selected="True">
+        <State expanded="True">
+          <Node name="Boxes" expanded="True">
+            <Node name="BoxCommands" expanded="True" />
+            <Node name="Plugins" expanded="True" />
+          </Node>
           <Node name="BoxesQuota" expanded="True">
             <Node name="References" expanded="True" />
             <Node name="Properties" expanded="True" />
+            <Node name="BoxesQuotaPlugin.cs" selected="True" />
           </Node>
         </State>
       </Pad>

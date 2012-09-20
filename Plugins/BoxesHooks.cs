@@ -33,18 +33,28 @@ namespace Hooks
 
 		public static bool AskOnDefineHooks (CommandArgs args)
 		{
+			return AskAndBoolReturnHooks(args, onDefineHooks);
+		}
+		
+		public static bool AskOnResizeHooks (CommandArgs args)
+		{
+			return AskAndBoolReturnHooks(args, onResizeHooks);
+		}
+		
+		private static bool AskAndBoolReturnHooks (CommandArgs args, IList<Func<CommandArgs, bool>> hooks)
+		{
 			bool ret = true;
-			onDefineHooks.ForEach(delegate(Func<CommandArgs, bool> a){ 
-				ret &= a(args); 
+			hooks.ForEach(delegate(Func<CommandArgs, bool> a){ 
+				ret &= a(args);
 			});
 			return ret;
 		}
-
-		public static bool AskOnResizeHooks (CommandArgs args)
+		
+		private static bool AskOrBoolReturnHooks (CommandArgs args, IList<Func<CommandArgs, bool>> hooks)
 		{
-			bool ret = true;
-			onResizeHooks.ForEach(delegate(Func<CommandArgs, bool> a){ 
-				ret &= a(args);
+			bool ret = false;
+			hooks.ForEach(delegate(Func<CommandArgs, bool> a){ 
+				ret |= a(args);
 			});
 			return ret;
 		}

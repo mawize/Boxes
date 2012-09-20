@@ -7,11 +7,10 @@ namespace Boxes.BoxCommands
 {
 	public class List : BoxCommand
 	{
-		private BoxManager BoxMan;
+		private BoxManager boxman = BoxManager.GetInstance();
 		
-		public List (BoxManager BM)
+		public List ()
 		{
-			BoxMan = BM;
 		}
 
 		public override void Execute(CommandArgs args){
@@ -33,7 +32,7 @@ namespace Boxes.BoxCommands
 				page--; //Substract 1 as pages are parsed starting at 1 and not 0
 			}
 			
-			var boxes = BoxMan.ListAllBoxes(Main.worldID.ToString());
+			var boxes = boxman.ListAllBoxes(Main.worldID.ToString());
 			
 			// Are there even any boxes to display?
 			if (boxes.Count == 0)

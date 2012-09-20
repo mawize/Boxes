@@ -5,29 +5,28 @@ namespace Boxes.BoxCommands
 {
 	public class Protect : BoxCommand
 	{
-		private BoxManager BoxMan;
+		private BoxManager boxman = BoxManager.GetInstance();
 
-		public Protect (BoxManager BM)
+		public Protect ()
 		{
-			BoxMan = BM;
 		}
 
 		public override void Execute(CommandArgs args){
 			if (args.Parameters.Count == 3)
 			{
 				string boxName = args.Parameters[1];
-				if(isOwner(args.Player,BoxMan.GetBoxByName(boxName)))
+				if(IsOwner(args.Player,boxman.GetBoxByName(boxName)))
 				{
 					if (args.Parameters[2].ToLower() == "true")
 					{
-						if (BoxMan.SetBoxProtected(boxName, true))
+						if (boxman.SetBoxProtected(boxName, true))
 							ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Box " + boxName + " protected");
 						else
 							ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);
 					}
 					else if (args.Parameters[2].ToLower() == "false")
 					{
-						if (BoxMan.SetBoxProtected(boxName, false))
+						if (boxman.SetBoxProtected(boxName, false))
 							ChatHandler.communicate(ChatHandler.CustomWarning, args.Player, "Box " + boxName + " unprotected");
 						else
 							ChatHandler.communicate(ChatHandler.BoxNotFound, args.Player, boxName);

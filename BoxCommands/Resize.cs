@@ -5,11 +5,10 @@ namespace Boxes.BoxCommands
 {
 	public class Resize : BoxCommand
 	{
-		private BoxManager BoxMan;
+		private BoxManager boxman = BoxManager.GetInstance();
 		
-		public Resize ( BoxManager BM)
+		public Resize ()
 		{
-			BoxMan = BM;
 		}
 
 		public override void Execute(CommandArgs args){
@@ -51,14 +50,21 @@ namespace Boxes.BoxCommands
 				int addAmount;
 				int.TryParse(args.Parameters[3], out addAmount);
 				string boxName = args.Parameters[1];
-				if(isOwner(args.Player, BoxMan.GetBoxByName(boxName)))
-					if (BoxMan.resizeBox(boxName, addAmount, direction))
+				if(IsOwner(args.Player, boxman.GetBoxByName(boxName)))
+				{
+					if(args.Player.Group.HasPermission("boxes.admin") || Hooks.BoxesHooks.AskOnDefineHooks(args))
 					{
-						ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Box Resized Successfully!");
-						BoxMan.ReloadAllBoxes();
+						if (boxman.resizeBox(boxName, addAmount, direction))
+						{
+							ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Box Resized Successfully!");
+							boxman.ReloadAllBoxes();
+						}
+						else
+							ChatHandler.communicate(ChatHandler.CustomError, args.Player, "Syntax? Does box exist?");
 					}
 					else
-						ChatHandler.communicate(ChatHandler.CustomSuccess, args.Player, "Syntax? Does box exist?");
+						ChatHandler.communicate(ChatHandler.CustomError, args.Player, "Box " + boxName + " could not be resized");
+				}
 				else 
 					ChatHandler.communicate(ChatHandler.NoPermission, args.Player, boxName);
 			}
