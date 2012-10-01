@@ -88,11 +88,10 @@ namespace BoxesQuota
 		public static void CreateExample()
 		{
 			new BQConfigFile().Write(BoxesQuotaPlugin.ConfigPath);
-			/*File.WriteAllText(BoxesQuotaPlugin.ConfigPath,
+			File.WriteAllText(BoxesQuotaPlugin.ConfigPath,
 			                  "{" + Environment.NewLine +
 			                  "  \"UserTilesQuota\": \"10000\"" + Environment.NewLine +
 			                  "}");
-*/
 		}
 	}
 }

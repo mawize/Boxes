@@ -32,7 +32,6 @@ namespace Boxes
 	public class BoxManager
 	{
 		public List<Box> AllBoxes = new List<Box>();
-		public static string TableName = "Boxes";
 
 		private IDbConnection database;
 
@@ -51,7 +50,7 @@ namespace Boxes
 		public void EnsureTableExists (IDbConnection db)
 		{
 			database = db;
-			var table = new SqlTable(TableName,
+			var table = new SqlTable("Boxes",
 			                         new SqlColumn("X1", MySqlDbType.Int32),
 			                         new SqlColumn("Y1", MySqlDbType.Int32),
 			                         new SqlColumn("width", MySqlDbType.Int32),

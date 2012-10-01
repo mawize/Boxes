@@ -110,7 +110,7 @@ namespace BoxesQuota
 			} else {
 				wantToBox *= box.Area.Height;
 			}
-			args.Player.SendMessage(string.Format ("WantToBox: {0}, AlreadyBoxed: {1}, Limit: {2}", wantToBox, boxed, limit));
+			args.Player.SendMessage(string.Format ("WantToBox: {0}, AlreadyBoxed: {1}, Quota: {2}", wantToBox, boxed, limit));
 			return (boxed+wantToBox)<limit;
 		}
 
@@ -124,7 +124,7 @@ namespace BoxesQuota
 			int height = Math.Abs(args.Player.TempPoints[0].Y - args.Player.TempPoints[1].Y);
 			
 			int wantToBox = width * height;
-			args.Player.SendMessage(string.Format ("WantToBox: {0}, AlreadyBoxed: {1}, Limit: {2}", wantToBox, boxed, limit));
+			args.Player.SendMessage(string.Format ("WantToBox: {0}, AlreadyBoxed: {1}, Quota: {2}", wantToBox, boxed, limit));
 			return (boxed+wantToBox)<limit;
 		}
 
