@@ -513,11 +513,12 @@ namespace Boxes
 		public int GetUsersBoxedTiles (string playerName)
 		{
 			var reader = database.QueryReader ("SELECT * FROM Boxes WHERE Owner=@0 AND WorldID=@1", playerName,
-			                                  Main.worldID.ToString ());
+			                                  Main.worldID.ToString());
 			var i = 0;
 			while (reader.Read ()) {
 				i += (reader.Get<int>("height")*reader.Get<int>("height"));
 			};
+			Log.Info(i.ToString());
 			return i;
 		}
 	}

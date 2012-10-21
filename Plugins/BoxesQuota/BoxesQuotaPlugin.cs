@@ -10,7 +10,7 @@ namespace BoxesQuota
 	[APIVersion( 1, 12 )]
 	public class BoxesQuotaPlugin : TerrariaPlugin
 	{
-		internal const string version = "0.0.0.9";
+		internal const string version = "1.0.0.0";
 		internal static string PluginConfigsPath { get { return Path.Combine(TShock.SavePath, "PluginConfigs"); } }
 		internal static string ConfigPath { get { return Path.Combine(PluginConfigsPath, "BoxesQuotaConfig.json"); } }
 
